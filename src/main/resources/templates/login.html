@@ -20,13 +20,13 @@
         </label>
         <input
                 th:field="*{username}"
-                th:errorclass="'is-invalid bg-danger'"
-                required minlength="4" maxlength="20"
+                th:errorclass="bg-danger"
+                required
                 type="text"
                 id="first"
                 name="first"
                 placeholder="Enter your Username">
-        <small class="invalid-feedback">
+        <small th:each="e :${#fields.errors('username')}" th:text="${e}" class="invalid-feedback">
             <span class="bg-danger">Username is not correct!</span>
         </small>
         <label for="password">
@@ -34,13 +34,14 @@
         </label>
         <input
                 th:field="*{password}"
-                th:errorclass="'is-invalid bg-danger'"
-                required minlength="4" maxlength="20"
+                th:errorclass="bg-danger"
+                required
                 type="password"
                 id="password"
                 name="password"
                 placeholder="Enter your Password">
-        <small class="invalid-feedback">
+        <small th:each="e :${#fields.errors('password')}" th:text="${e}"
+               class="invalid-feedback">
             <span class="bg-danger">Password is not correct!</span>
         </small>
         <div class="wrap">

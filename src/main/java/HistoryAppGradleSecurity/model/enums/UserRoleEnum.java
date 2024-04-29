@@ -1,2 +1,6 @@
-package HistoryAppGradleSecurity.model.enums;public class UserRoleEnum {
+package HistoryAppGradleSecurity.model.enums;
+
+public enum UserRoleEnum {
+    ADMIN,
+    MODERATOR
 }

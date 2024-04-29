@@ -1,9 +1,9 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost:3306/security_demo?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
+    url: "jdbc:mysql://localhost:3306/history_gradle_security?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
     username: root
-    password: 810129
+    password:
   sql:
     init:
       mode: always
@@ -27,9 +27,9 @@ spring:
 
 app:
   default:
-    password: topsecret
+    password: pako
 server:
-  port: 1029
+  port: 1030
 logging:
   level:
     org.springframework.security: TRACE
