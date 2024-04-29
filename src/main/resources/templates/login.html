@@ -1,0 +1,119 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/css/log-in.css">
+<link rel="stylesheet" href="/css/reset-css.css">
+<head th:replace="fragments/commons::head">
+
+</head>
+<header th:replace="fragments/commons::nav"></header>
+<body>
+<div class="main">
+    <h1>ANCIENT HISTORY PORTAL</h1>
+    <h3>Enter your login credentials</h3>
+    <form
+            th:object="${userLoginBindingModel}"
+            th:action="@{/users/login}"
+            th:method="post">
+        <h5 th:if="${isFound==false}" class="bg-danger">Incorrect username or password !</h5>
+        <label for="first">
+            Username:
+        </label>
+        <input
+                th:field="*{username}"
+                th:errorclass="'is-invalid bg-danger'"
+                required minlength="4" maxlength="20"
+                type="text"
+                id="first"
+                name="first"
+                placeholder="Enter your Username">
+        <small class="invalid-feedback">
+            <span class="bg-danger">Username is not correct!</span>
+        </small>
+        <label for="password">
+            Password:
+        </label>
+        <input
+                th:field="*{password}"
+                th:errorclass="'is-invalid bg-danger'"
+                required minlength="4" maxlength="20"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your Password">
+        <small class="invalid-feedback">
+            <span class="bg-danger">Password is not correct!</span>
+        </small>
+        <div class="wrap">
+            <button type="submit"
+                    onclick="solve()">
+                Submit
+            </button>
+        </div>
+    </form>
+    <p>Not registered?
+        <a href="/users/subscribe"
+           style="text-decoration: none;">
+            Create an account
+        </a>
+    </p>
+</div>
+<!--<main class="p-5 align-content-center bg-blur my-register-div">-->
+<!--    <h1 class="    border-bottom mb-5">Login</h1>-->
+<!--    <div class="d-flex justify-content-center">-->
+
+<!--        <div class="row g-3 align-items-center">-->
+
+<!--            <form-->
+<!--                    th:object="${userLoginBindingModel}"-->
+<!--                    th:action="@{/users/login}"-->
+<!--                    th:method="post">-->
+<!--                <div>-->
+<!--                    <h5 th:if="${isFound==false}" class="bg-danger">Incorrect username or password !</h5>-->
+<!--                    <div class="col-auto">-->
+<!--                        <label for="inputUsername" class="col-form-label ">Username</label>-->
+<!--                    </div>-->
+<!--                    <div class="col-auto">-->
+<!--                        <input type="text"-->
+<!--                               th:field="*{username}"-->
+<!--                               th:errorclass="'is-invalid bg-danger'"-->
+<!--                               required minlength="4" maxlength="20"-->
+<!--                               name="username"-->
+<!--                               id="inputUsername"-->
+<!--                               class="form-control"-->
+<!--                               aria-describedby="usernameHelpInline">-->
+<!--                    </div>-->
+<!--                    <small class="invalid-feedback">-->
+<!--                        <span class="bg-danger">Username is not correct!</span>-->
+<!--                    </small>-->
+
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <div class="col-auto">-->
+<!--                        <label for="inputPassword" class="col-form-label ">Password</label>-->
+<!--                    </div>-->
+<!--                    <div class="col-auto">-->
+<!--                        <input type="password"-->
+<!--                               th:field="*{password}"-->
+<!--                               th:errorclass="'is-invalid bg-danger'"-->
+<!--                               required minlength="4" maxlength="20"-->
+<!--                               id="inputPassword" class="form-control"-->
+<!--                               aria-describedby="passwordHelpInline">-->
+<!--                    </div>-->
+<!--                    <small class="invalid-feedback">-->
+<!--                        <span class="bg-danger">Password is not correct!</span>-->
+<!--                    </small>-->
+
+<!--                </div>-->
+<!--                <div class="d-flex justify-content-center mt-2">-->
+<!--                    <button class="btn btn-primary btn-block w-50" type="submit">Login</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--</main>-->
+<footer th:replace="fragments/commons::footer">
+
+</footer>
+</body>
+</html>

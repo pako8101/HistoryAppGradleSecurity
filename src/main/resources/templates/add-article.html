@@ -1,0 +1,183 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/commons::head">
+
+</head>
+<link rel="stylesheet" href="/css/add-article.css">
+<link rel="stylesheet" href="/css/reset-css.css">
+<body>
+<div class="wrapper">
+    <!-- Navigation -->
+    <header th:replace="fragments/commons::nav">
+    </header>
+
+    <!-- Top Container -->
+    <div class="form-style-5 ">
+        <form
+                id="add-route-form" class="w-50 rounded text-white mt-5"
+                          th:action="@{/articles/add}"
+                         th:method="post"
+                        th:object="${articleAddBindingModel}"
+                          enctype="multipart/form-data"
+                    >
+                        <fieldset>
+                            <legend><span class="number">1</span> Author Info</legend>
+                            <input type="text" name="field1" placeholder="Your Name *">
+                            <input type="email" name="field2" placeholder="Your Email *">
+                            <textarea name="field3" placeholder="About yourself"></textarea>
+                            <label for="job">Interests:</label>
+                            <select id="job" name="field4">
+                                <optgroup label="PoliticAndEconomy">
+                                    <option value="egypt">Egypt</option>
+                                    <option value="rome">Rome Empire</option>
+                                    <option value="mesopotamia">Mesopotamia</option>
+                                    <option value="greece">Ancient Greece</option>
+                                    <option value="america">Central America</option>
+                                    <option value="andean">Andean</option>
+                                    <option value="stone">Stone Age</option>
+                                    <option value="other">Other</option>
+                                </optgroup>
+                                <optgroup label="CultureAndReligion">
+                                    <option value="egypt">Egypt</option>
+                                    <option value="rome">Rome Empire</option>
+                                    <option value="mesopotamia">Mesopotamia</option>
+                                    <option value="greece">Ancient Greece</option>
+                                    <option value="america">Central America</option>
+                                    <option value="andean">Andean</option>
+                                    <option value="stone">Stone Age</option>
+                                    <option value="other">Other</option>
+                                </optgroup>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <input th:field="*{title}"
+                                   th:errorclass="'is-invalid bg-danger'"
+                                   minlength="5"
+                                    type="text" name="field1" placeholder="Article Title">
+                            <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                            class="invalid-feedback rounded" id="inputTitleError"> Title must be more then 5 letters!</small>
+                            <legend><span class="number">2</span> Article Text</legend>
+                            <textarea th:field="*{content}"
+                                      th:errorclass="'is-invalid bg-danger'"
+                                      minlength="10"
+                                    class="article" name="field3" placeholder=" Your Article Content"></textarea>
+                            <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+                                   class="invalid-feedback rounded" id="inputContentError"> Content must be more then 10 letters!</small>
+                        </fieldset>
+                        <input type="submit" value="Add article" />
+                    </form>
+                </div>
+
+
+
+
+                <!--    <div class="row justify-content-center ">-->
+<!--        <form id="add-route-form" class="w-50 rounded text-white mt-5"-->
+<!--              th:action="@{/routes/add}"-->
+<!--              th:method="post"-->
+<!--              th:object="${routeAddBindingModel}"-->
+<!--              enctype="multipart/form-data">-->
+
+<!--            <h3 class="border-left border-light pl-2">Add a new route</h3>-->
+<!--            <div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="inputName" class="col-form-label ">Name</label>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <input-->
+<!--                            th:field="*{name}"-->
+<!--                            th:errorclass="'is-invalid bg-danger'"-->
+<!--                            required minlength="3" maxlength="20"-->
+<!--                            type="text"-->
+<!--                            id="inputName"-->
+<!--                            class="form-control"-->
+<!--                            aria-describedby="inputNameError">-->
+<!--                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="inputNameError"-->
+<!--                           class="invalid-feedback rounded">-->
+<!--                        Name length must be more than 3 characters</small>-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="inputDescription" class="col-form-label ">Description</label>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <textarea-->
+<!--                            th:field="*{description}"-->
+<!--                            th:errorclass="'is-invalid bg-danger'"-->
+<!--                            required minlength="5"-->
+<!--                            id="inputDescription"-->
+<!--                            class="form-control"-->
+<!--                            aria-describedby="inputDescriptionError"></textarea>-->
+<!--                    <small th:if="${#fields.hasErrors('description')}"-->
+<!--                           th:errors="*{description}"-->
+<!--                           id="inputDescriptionError"-->
+<!--                           class="invalid-feedback  form-text bg-danger rounded">Description length must be more than 5-->
+<!--                        characters</small>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="inputGpx" class="col-form-label ">GPX Coordinates</label>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <input type="file"-->
+<!--                           th:field="*{gpxCoordinates}"-->
+<!--                           th:errorclass="'is-invalid bg-danger'"-->
+<!--                           required-->
+<!--                           id="inputGpx"-->
+<!--                           class="form-control-file"-->
+<!--                           aria-describedby="inputGpxError">-->
+<!--                    <small th:if="${#fields.hasErrors('gpxCoordinates')}" th:errors="*{gpxCoordinates}" id="inputGpxError"-->
+<!--                           class="invalid-feedback  form-text bg-danger rounded">Must be valid GPX Coordinates</small>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="level">Level</label>-->
+<!--                    <select th:field="*{level}"-->
+<!--                            th:errorclass="'is-invalid bg-danger'"-->
+<!--                            id="level" class="custom-select">-->
+<!--                        <option value="" selected>Select level</option>-->
+<!--                        <option-->
+<!--                                th:each="l : ${T(com.example.myroutdiscover.model.entity.enums.LevelEnum).values()}"-->
+<!--                                th:value="${l}"  th:text="${l}" >Select level</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <label for="videoUrl">Video Url (only last eleven characters from Youtube)</label>-->
+<!--                    <input th:field="*{videoUrl}"-->
+<!--                           id="videoUrl" type="text"-->
+<!--                           class="form-control" placeholder="Video url">-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--                <div class="form-group p-3">-->
+<!--                    <label class="p-2" for="categories">Categories:</label>-->
+<!--                    <input th:field="${routeAddBindingModel.categories}" th:each="c : ${T(com.example.myroutdiscover.model.entity.enums.CategoryNameEnum).values()}"-->
+<!--                           th:object="${c}" th:text="${c}" th:value="${c}"  class="m-3" type="checkbox" name="categories" id="categories"-->
+<!--                           value="1" text="Category">-->
+<!--                    <br>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="d-flex justify-content-center mt-4">-->
+<!--                <button class="btn btn-primary btn-block w-50" type="submit">Add Route</button>-->
+<!--            </div>-->
+
+<!--        </form>-->
+<!--    </div>-->
+    <footer th:replace="fragments/commons::footer">
+
+    </footer>
+</div>
+</body>
+</html>

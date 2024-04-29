@@ -1,0 +1,15 @@
+.info{
+    background-color: antiquewhite;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-size: x-large;
+    font-family: "Times New Roman";
+    font-style: italic;
+    margin: 1rem 2rem 1rem 2rem;
+
+}
+.about-language{
+    padding: 1rem 2rem 1rem 2rem;
+}
