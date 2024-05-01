@@ -19,6 +19,6 @@ public interface UserService {
 
   //  UserServiceModel findById(Long id);
 
-   // UserEnt findCurrentUserLoginEntity();
+    UserEnt findCurrentUserLoginEntity();
    UserViewModel getUserProfile();
 }

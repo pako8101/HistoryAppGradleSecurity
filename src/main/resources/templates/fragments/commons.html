@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+
+<!--      xmlns:th="http://www.thymeleaf.org"-->
+
 <head th:fragment="head">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -20,29 +23,29 @@
         <div class="home-navbar">
             <header th:fragment="nav" data-role="Header" class="home-header max-width-container">
                 <div class="home-navbar1">
-                    <th:block th:if="${@currentUser.id==null}">
-                        <div class="home-container01">
+                    <th:block >
+                        <div  class="home-container01">
                             <input type="text" placeholder="Search AH portal" class="home-textinput input"/>
                         </div>
                         <div class="home-middle">
                             <div class="home-left">
                                 <a href="/" class="navbar-link">HOME</a>
-                                <a href="/users/login" class="navbar-link">LOGIN</a>
-                                <a class="navbar-link" href="/users/subscribe">SUBSCRIBE</a>
-                                <a class="navbar-link" href="/articles/add">ADD ARTICLE</a>
+                                <a sec:authorize="!isAuthenticated()" th:href="@{/users/login}" class="navbar-link">LOGIN</a>
+                                <a sec:authorize="!isAuthenticated()" class="navbar-link" th:href="@{/users/subscribe}">SUBSCRIBE</a>
+                                <a sec:authorize="isAuthenticated()"  class="navbar-link" th:href="@{/articles/add}">ADD ARTICLE</a>
                             </div>
                         </div>
 
                     </th:block>
 
-                    <th:block th:if="${@currentUser.id!=null}">
+                    <th:block sec:authorize="isAuthenticated()">
                         <div class="home-container01">
                             <input type="text" placeholder="Search AH portal" class="home-textinput input"/>
                         </div>
                         <div class="home-middle">
                             <div class="home-left">
                                 <a href="/" class="navbar-link">HOME</a>
-                                <a class="navbar-link"   th:href="@{/users/profile/{id}(id=${@currentUser.id})}">PROFILE</a>
+                                <a class="navbar-link"   th:href="@{/users/profile}">PROFILE</a>
                                 <a class="navbar-link"  th:href="@{/users/logout}">LOGOUT</a>
                                 <a class="navbar-link"  th:href="@{/articles/add}">ADD NEW ARTICLE</a>
 <!--                                <span> <a href="/">ADMIN</a></span>-->
@@ -62,6 +65,7 @@
                         <a class="navbar-link">CONTACT</a>
                     </div>
                 </div>
+
             </header>
 
             <footer th:fragment="footer" class="home-footer1">
@@ -88,7 +92,6 @@
                     <div class="home-container11">
                         <span class="home-text45">Company</span>
                         <a href="#" class="home-text46">Post</a>
-                        <a href="#" class="home-text47">Lookbook</a>
                         <a href="#" class="home-text48">Specials</a>
                         <a href="#" class="home-text49">About</a>
                         <a href="#" class="home-text50">Blog</a>
@@ -101,6 +104,8 @@
                     </div>
                 </div>
             </footer>
+        </div>
+
 
 </body>
 </html>

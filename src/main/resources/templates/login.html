@@ -15,7 +15,7 @@
             th:action="@{/users/login}"
             th:method="post">
         <h5 th:if="${isFound==false}" class="bg-danger">Incorrect username or password !</h5>
-        <label for="first">
+        <label for= >
             Username:
         </label>
         <input
@@ -23,8 +23,8 @@
                 th:errorclass="bg-danger"
                 required
                 type="text"
-                id="first"
-                name="first"
+                id="username"
+                name="username"
                 placeholder="Enter your Username">
         <small th:each="e :${#fields.errors('username')}" th:text="${e}" class="invalid-feedback">
             <span class="bg-danger">Username is not correct!</span>

@@ -1,7 +1,11 @@
 package HistoryAppGradleSecurity.model.service;
 
+import HistoryAppGradleSecurity.model.entity.Picture;
 import HistoryAppGradleSecurity.model.entity.UserEnt;
+import HistoryAppGradleSecurity.model.enums.CategoryNameEnum;
 import HistoryAppGradleSecurity.model.enums.PeriodEnum;
+
+import java.util.Set;
 
 public class ArticleServiceModel {
     private Long id;
@@ -9,8 +13,39 @@ public class ArticleServiceModel {
     private PeriodEnum category;
     private String name;
     private UserEnt author;
+    private String description;
+    private Set<Picture> pictures;
+
+    private Set<CategoryNameEnum>categories;
 
     public ArticleServiceModel() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ArticleServiceModel setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Set<Picture> getPictures() {
+        return pictures;
+    }
+
+    public ArticleServiceModel setPictures(Set<Picture> pictures) {
+        this.pictures = pictures;
+        return this;
+    }
+
+    public Set<CategoryNameEnum> getCategories() {
+        return categories;
+    }
+
+    public ArticleServiceModel setCategories(Set<CategoryNameEnum> categories) {
+        this.categories = categories;
+        return this;
     }
 
     public Long getId() {

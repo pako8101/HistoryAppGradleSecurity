@@ -2,11 +2,14 @@ package HistoryAppGradleSecurity.session;
 
 import HistoryAppGradleSecurity.model.entity.UserRoleEnt;
 import HistoryAppGradleSecurity.model.enums.UserRoleEnum;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
+@Component
+@SessionScope
 public class LoggedUser {
     private String username;
     private Set<UserRoleEnt> roles;

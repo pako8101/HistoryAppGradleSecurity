@@ -41,7 +41,10 @@ public class UserController {
 }
 
 @GetMapping("/subscribe")
-    public String subscribe(){
+    public String subscribe(Model model){
+    if (!model.containsAttribute("userSubscribeBindingModel")) {
+        model.addAttribute("userSubscribeBindingModel", new UserSubscribeBindingModel());
+    }
         return "subscribe";
 }
 @PostMapping("/subscribe")
@@ -64,7 +67,10 @@ public class UserController {
 
 }
 @GetMapping("/login")
-    public String login(){
+    public String login(Model model){
+    if (!model.containsAttribute("isFound")) {
+        model.addAttribute("isFound", true);
+    }
         return "login";
 }
 @PostMapping("/login-error")
@@ -93,4 +99,5 @@ public class UserController {
 
         return modelAndView;
     }
+
 }

@@ -18,7 +18,7 @@
                 <div class="profile-card p-3 py-4">
 <!--                    <i class="fas fa-user-ninja"></i>-->
                     <div class="text-center"><img src="/images/user-ninja-solid.svg" width="100" class="rounded-circle"></div>
-                    <div class="text-center mt-3" th:object="${user}">
+                    <div class="text-center mt-3" th:object="${userProfileViewModel}">
 
                         <h5 class="mt-4 mb-0">Full name</h5>
                         <span th:text="*{fullName}">UI/UX Designer</span>

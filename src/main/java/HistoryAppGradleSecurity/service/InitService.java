@@ -58,6 +58,7 @@ public class InitService {
                 setEmail("admin@example.com").
                 setFullName("Admin").
                 setCountry("Bulgaria").
+                setUsername("admin").
                 setPassword(passwordEncoder.encode(defaultPassword)).
                 setRoles(userRoleRepository.findAll());
 
@@ -73,6 +74,7 @@ public class InitService {
                 setEmail("moderator@example.com").
                 setFullName("Moderator").
                 setCountry("Greece").
+                setUsername("moderator").
                 setPassword(passwordEncoder.encode(defaultPassword)).
                 setRoles(List.of(moderatorRole));
 
@@ -85,6 +87,7 @@ public class InitService {
                 setEmail("user@example.com").
                 setFullName("User").
                 setCountry("Tanzania").
+                setUsername("user").
                 setPassword(passwordEncoder.encode(defaultPassword));
 
         userRepository.save(normalUser);

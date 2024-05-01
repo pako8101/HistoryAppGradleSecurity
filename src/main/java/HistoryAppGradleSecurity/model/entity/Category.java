@@ -13,7 +13,9 @@ public class Category extends  BaseEntity{
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    public Category() {
+    public Category(CategoryNameEnum name) {
+        this.name = name;
+
     }
 
     public CategoryNameEnum getName() {

@@ -55,6 +55,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEnt findCurrentUserLoginEntity() {
+        return userRepository.findByUsername(loggedUser.getUsername())
+                .orElse(null);
+    }
+
+    @Override
     public UserViewModel getUserProfile() {
         String username = loggedUser.getUsername();
         UserEnt user = userRepository.findByUsername(username)
