@@ -59,3 +59,13 @@ button[type="submit"] {
     width: 100%;
     font-size: 16px;
 }
+input:valid{
+    border: springgreen solid 2px;
+}
+input:invalid{
+    border: darkred solid 2px;
+}
+
+input:invalid:required{
+    background-image: linear-gradient(to right,pink,purple);
+}

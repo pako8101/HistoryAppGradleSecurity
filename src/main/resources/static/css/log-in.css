@@ -64,3 +64,13 @@ button {
     justify-content: center;
     align-items: center;
 }
+input:valid{
+    border: springgreen;
+}
+input:invalid{
+    border: dashed darkred 2px ;
+}
+
+input:invalid:required{
+    background-image: linear-gradient(to right,pink,purple);
+}
