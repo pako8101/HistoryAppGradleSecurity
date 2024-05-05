@@ -1,5 +1,6 @@
 package HistoryAppGradleSecurity.service;
 
+import HistoryAppGradleSecurity.model.binding.UserLoginBindingModel;
 import HistoryAppGradleSecurity.model.binding.UserSubscribeBindingModel;
 import HistoryAppGradleSecurity.model.entity.UserEnt;
 import HistoryAppGradleSecurity.model.service.UserServiceModel;
@@ -21,4 +22,12 @@ public interface UserService {
 
     UserEnt findCurrentUserLoginEntity();
    UserViewModel getUserProfile();
+
+    boolean userNameExists(String username);
+
+    void registerAndLoginUser(UserServiceModel userServiceModel);
+
+    void login(UserLoginBindingModel userLoginBindingModel);
+
+    UserServiceModel findByUsernameAndPassword(String username, String password);
 }

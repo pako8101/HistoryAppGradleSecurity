@@ -2,11 +2,14 @@ package HistoryAppGradleSecurity.web;
 
 import HistoryAppGradleSecurity.model.binding.UserLoginBindingModel;
 import HistoryAppGradleSecurity.model.binding.UserSubscribeBindingModel;
+import HistoryAppGradleSecurity.model.service.UserServiceModel;
 import HistoryAppGradleSecurity.model.view.UserViewModel;
 import HistoryAppGradleSecurity.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
@@ -14,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,63 +28,130 @@ public class UserController {
     private final UserService userService;
     private final SecurityContextRepository securityContextRepository;
 
+    private final ModelMapper modelMapper;
 
-    public UserController(UserService userService, SecurityContextRepository securityContextRepository) {
+    public UserController(UserService userService, SecurityContextRepository securityContextRepository, ModelMapper modelMapper) {
         this.userService = userService;
         this.securityContextRepository = securityContextRepository;
+        this.modelMapper = modelMapper;
     }
 
 
-@ModelAttribute
-    public UserSubscribeBindingModel userSubscribeBindingModel(){
+    @ModelAttribute
+    public UserSubscribeBindingModel userSubscribeBindingModel() {
         return new UserSubscribeBindingModel();
-}
-@ModelAttribute
-    public UserLoginBindingModel userLoginBindingModel(){
+    }
+
+    @ModelAttribute
+    public UserLoginBindingModel userLoginBindingModel() {
         return new UserLoginBindingModel();
-}
-
-@GetMapping("/subscribe")
-    public String subscribe(Model model){
-    if (!model.containsAttribute("userSubscribeBindingModel")) {
-        model.addAttribute("userSubscribeBindingModel", new UserSubscribeBindingModel());
     }
+
+    @GetMapping("/subscribe")
+    public String subscribe(Model model) {
+        if (!model.containsAttribute("userSubscribeBindingModel")) {
+            model.addAttribute("userSubscribeBindingModel", new UserSubscribeBindingModel());
+        }
         return "subscribe";
-}
-@PostMapping("/subscribe")
-    public String subscribeConfirm(UserSubscribeBindingModel userSubscribeBindingModel,
-                                   HttpServletRequest request,
-                                   HttpServletResponse response){
-
-        userService.subscribeUser(userSubscribeBindingModel,successfulAuth ->{
-            SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
-
-            SecurityContext context = strategy.createEmptyContext();
-            context.setAuthentication(successfulAuth);
-
-            strategy.setContext(context);
-            securityContextRepository.saveContext(context,request,response);
-        });
-
-        return "redirect:/login";
-
-
-}
-@GetMapping("/login")
-    public String login(Model model){
-    if (!model.containsAttribute("isFound")) {
-        model.addAttribute("isFound", true);
     }
+
+    @PostMapping("/subscribe")
+    public String registerAndLoginUser(
+            @Valid UserSubscribeBindingModel subscribeBindingModel,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors() || !subscribeBindingModel.getPassword()
+                .equals(subscribeBindingModel.getConfirmPassword())) {
+            redirectAttributes.addFlashAttribute("subscribeBindingModel", subscribeBindingModel);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.subscribeBindingModel", bindingResult);
+
+            return "redirect:/users/subscribe";
+        }
+
+        if (userService.userNameExists(subscribeBindingModel.getUsername())) {
+            redirectAttributes.addFlashAttribute("subscribeBindingModel", subscribeBindingModel);
+            redirectAttributes.addFlashAttribute("userExistsError", true);
+
+            return "redirect:/users/subscribe";
+        }
+
+        UserServiceModel userServiceModel = modelMapper
+                .map(subscribeBindingModel, UserServiceModel.class);
+
+        userService.registerAndLoginUser(userServiceModel);
+
+        return "redirect:/home";
+    }
+
+    //    public String subscribeConfirm(UserSubscribeBindingModel userSubscribeBindingModel,
+//                                   HttpServletRequest request,
+//                                   HttpServletResponse response){
+//
+//        userService.subscribeUser(userSubscribeBindingModel,successfulAuth ->{
+//            SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
+//
+//            SecurityContext context = strategy.createEmptyContext();
+//            context.setAuthentication(successfulAuth);
+//
+//            strategy.setContext(context);
+//            securityContextRepository.saveContext(context,request,response);
+//        });
+//
+//        return "redirect:/login";
+//
+//
+//}
+    @GetMapping("/login")
+    public String login(Model model) {
+        if (!model.containsAttribute("isFound")) {
+            model.addAttribute("isFound", true);
+        }
         return "login";
-}
+    }
+
+    @PostMapping("/login")
+    public String login(@Valid UserLoginBindingModel userLoginBindingModel,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userLoginBindingModel");
+            redirectAttributes.addFlashAttribute(userLoginBindingModel);
+
+            return "redirect:login";
+        }
+        UserServiceModel userServiceModel =
+                userService.findByUsernameAndPassword(userLoginBindingModel.getUsername(),
+                        userLoginBindingModel.getPassword());
+
+        if (userServiceModel == null) {
+            redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
+            redirectAttributes.addFlashAttribute("isFound", false);
+            redirectAttributes.addFlashAttribute("org.springframework" +
+                    ".validation.BindingResult" +
+                    ".userLoginBindingModel", bindingResult);
+            return "redirect:login";
+
+        }
+        userService.login(
+                userLoginBindingModel());
+        return "redirect:/";
+
+//        userService.login(userLoginBindingModel);
+//        return new ModelAndView("redirect:/");
+    }
+
+
 @PostMapping("/login-error")
     public String onFailedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter
         .SPRING_SECURITY_FORM_USERNAME_KEY) String username,
                                 RedirectAttributes redirectAttributes){
-        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter
-                .SPRING_SECURITY_FORM_USERNAME_KEY,username);
-        redirectAttributes.addFlashAttribute("bad-credentials",true);
-
+//        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter
+//                .SPRING_SECURITY_FORM_USERNAME_KEY,username);
+//        redirectAttributes.addFlashAttribute("bad_credentials",true);
+    redirectAttributes.addFlashAttribute("bad_credentials", true);
+    redirectAttributes.addFlashAttribute("username", username);
         return "redirect:/login";
 
 }

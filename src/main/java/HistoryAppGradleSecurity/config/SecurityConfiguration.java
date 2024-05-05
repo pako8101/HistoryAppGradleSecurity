@@ -4,10 +4,12 @@ import HistoryAppGradleSecurity.model.enums.UserRoleEnum;
 import HistoryAppGradleSecurity.repository.UserRepository;
 import HistoryAppGradleSecurity.service.ApplicationUserDetailsService;
 
+import jakarta.persistence.Entity;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +20,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -30,10 +33,13 @@ public class SecurityConfiguration {
                                 authorizeHttpRequests.
                                         requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                         .permitAll().
-                                        requestMatchers("/", "/users/login", "/users/subscribe", "/users/login-error")
+                                        requestMatchers("/","/about","/profile", "/users/login", "/users/subscribe", "/users/login-error")
+                                        .permitAll().
+                                        requestMatchers("/articles/add", "/articles/all", "/articles/details/{id}")
                                         .permitAll().
                                         requestMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
                                         requestMatchers("/pages/admins").hasRole(UserRoleEnum.ADMIN.name()).
+                                        requestMatchers("/**").authenticated().
                                         anyRequest().authenticated()
                 )
                 .formLogin(
