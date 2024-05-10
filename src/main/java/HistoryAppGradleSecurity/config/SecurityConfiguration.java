@@ -20,7 +20,6 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 @Configuration
-@EnableWebSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -33,12 +32,13 @@ public class SecurityConfiguration {
                                 authorizeHttpRequests.
                                         requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                         .permitAll().
-                                        requestMatchers("/","/about","/profile", "/users/login", "/users/subscribe", "/users/login-error")
+                                        requestMatchers("/","/about","users/profile", "/users/login", "/users/subscribe", "/users/login-error")
                                         .permitAll().
                                         requestMatchers("/articles/add", "/articles/all", "/articles/details/{id}")
                                         .permitAll().
                                         requestMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
                                         requestMatchers("/pages/admins").hasRole(UserRoleEnum.ADMIN.name()).
+                                        requestMatchers("/pages/all").hasRole(UserRoleEnum.USER.name()).
                                         requestMatchers("/**").authenticated().
                                         anyRequest().authenticated()
                 )
@@ -57,6 +57,7 @@ public class SecurityConfiguration {
                         logout.logoutUrl("/users/logout").
                                 logoutSuccessUrl("/").//go to homepage after logout
                                 invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
                 ).securityContext(
                         securityContext -> securityContext.
                                 securityContextRepository(securityContextRepository)

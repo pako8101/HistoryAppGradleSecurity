@@ -17,7 +17,7 @@ public class InitService {
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final String defaultPassword;
+
 
     public InitService(UserRoleRepository userRoleRepository,
                        UserRepository userRepository,
@@ -26,7 +26,7 @@ public class InitService {
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.defaultPassword = defaultPassword;
+
     }
 
     @PostConstruct
@@ -39,9 +39,11 @@ public class InitService {
         if (userRoleRepository.count() == 0) {
             var moderatorRole = new UserRoleEnt().setRole(UserRoleEnum.MODERATOR);
             var adminRole = new UserRoleEnt().setRole(UserRoleEnum.ADMIN);
+            var userRole = new UserRoleEnt().setRole(UserRoleEnum.USER);
 
             userRoleRepository.save(moderatorRole);
             userRoleRepository.save(adminRole);
+            userRoleRepository.save(userRole);
         }
     }
 
@@ -59,7 +61,7 @@ public class InitService {
                 setFullName("Admin").
                 setCountry("Bulgaria").
                 setUsername("admin").
-                setPassword(passwordEncoder.encode(defaultPassword)).
+                setPassword(passwordEncoder.encode("pako")).
                 setRoles(userRoleRepository.findAll());
 
         userRepository.save(adminUser);
@@ -75,7 +77,7 @@ public class InitService {
                 setFullName("Moderator").
                 setCountry("Greece").
                 setUsername("moderator").
-                setPassword(passwordEncoder.encode(defaultPassword)).
+                setPassword(passwordEncoder.encode("pako")).
                 setRoles(List.of(moderatorRole));
 
         userRepository.save(moderatorUser);
@@ -88,7 +90,7 @@ public class InitService {
                 setFullName("User").
                 setCountry("Tanzania").
                 setUsername("user").
-                setPassword(passwordEncoder.encode(defaultPassword));
+                setPassword(passwordEncoder.encode("pako"));
 
         userRepository.save(normalUser);
     }

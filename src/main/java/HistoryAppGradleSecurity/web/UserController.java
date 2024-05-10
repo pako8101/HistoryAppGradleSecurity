@@ -37,12 +37,12 @@ public class UserController {
     }
 
 
-    @ModelAttribute
+    @ModelAttribute("userSubscribeBindingModel")
     public UserSubscribeBindingModel userSubscribeBindingModel() {
         return new UserSubscribeBindingModel();
     }
 
-    @ModelAttribute
+    @ModelAttribute("userLoginBindingModel")
     public UserLoginBindingModel userLoginBindingModel() {
         return new UserLoginBindingModel();
     }
@@ -85,7 +85,8 @@ public class UserController {
         return "redirect:/home";
     }
 
-    //    public String subscribeConfirm(UserSubscribeBindingModel userSubscribeBindingModel,
+//    @PostMapping("/subscribe")
+//        public String subscribeConfirm(UserSubscribeBindingModel userSubscribeBindingModel,
 //                                   HttpServletRequest request,
 //                                   HttpServletResponse response){
 //
@@ -99,7 +100,7 @@ public class UserController {
 //            securityContextRepository.saveContext(context,request,response);
 //        });
 //
-//        return "redirect:/login";
+//        return "redirect:/";
 //
 //
 //}
@@ -111,56 +112,27 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@Valid UserLoginBindingModel userLoginBindingModel,
-                              BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userLoginBindingModel");
-            redirectAttributes.addFlashAttribute(userLoginBindingModel);
 
-            return "redirect:login";
-        }
-        UserServiceModel userServiceModel =
-                userService.findByUsernameAndPassword(userLoginBindingModel.getUsername(),
-                        userLoginBindingModel.getPassword());
-
-        if (userServiceModel == null) {
-            redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
-            redirectAttributes.addFlashAttribute("isFound", false);
-            redirectAttributes.addFlashAttribute("org.springframework" +
-                    ".validation.BindingResult" +
-                    ".userLoginBindingModel", bindingResult);
-            return "redirect:login";
-
-        }
-        userService.login(
-                userLoginBindingModel());
-        return "redirect:/";
-
-//        userService.login(userLoginBindingModel);
-//        return new ModelAndView("redirect:/");
-    }
 
 
 @PostMapping("/login-error")
     public String onFailedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter
         .SPRING_SECURITY_FORM_USERNAME_KEY) String username,
                                 RedirectAttributes redirectAttributes){
-//        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter
-//                .SPRING_SECURITY_FORM_USERNAME_KEY,username);
-//        redirectAttributes.addFlashAttribute("bad_credentials",true);
-    redirectAttributes.addFlashAttribute("bad_credentials", true);
-    redirectAttributes.addFlashAttribute("username", username);
-        return "redirect:/login";
+        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter
+                .SPRING_SECURITY_FORM_USERNAME_KEY,username);
+        redirectAttributes.addFlashAttribute("bad_credentials",true);
+//    redirectAttributes.addFlashAttribute("bad_credentials", true);
+//    redirectAttributes.addFlashAttribute("username", username);
+        return "redirect:/users/login";
 
 }
-    @GetMapping("/logout")
-    public String logout(HttpSession httpSession){
-        httpSession.invalidate();
-        return "redirect:/";
-
-    }
+//    @GetMapping("/logout")
+//    public String logout(HttpSession httpSession){
+//        httpSession.invalidate();
+//        return "redirect:/";
+//
+//    }
     @GetMapping("/profile")
     public ModelAndView profile() {
         UserViewModel userViewModel = userService.getUserProfile();

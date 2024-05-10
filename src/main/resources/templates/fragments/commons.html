@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
-<!--      xmlns:th="http://www.thymeleaf.org"-->
+
 
 <head th:fragment="head">
     <meta charset="UTF-8"/>
@@ -54,13 +55,18 @@
 
                     <th:block sec:authorize="isAuthenticated()">
                         <div class="home-container01">
-                            <input type="text" placeholder="Search AH portal" class="home-textinput input"/>
+                            <input type="text" placeholder="Search AH portal" class="home- input"/>
                         </div>
                         <div class="home-middle">
                             <div class="home-left">
-                                <a href="/" class="navbar-link">HOME</a>
+                                <a th:href="@{/}" class="navbar-link">HOME</a>
                                 <a class="navbar-link"   th:href="@{/users/profile}">PROFILE</a>
-                                <a class="navbar-link"  th:href="@{/users/logout}">LOGOUT</a>
+                                <a class="navbar-link" >
+                                    <form th:action="@{/logout}" method="post">
+                                        <button type="submit" class="nav-link">Logout</button>
+                                    </form>
+                                </a>
+<!--                                <a class="navbar-link"  th:href="@{/users/logout}">LOGOUT</a>-->
                                 <a class="navbar-link"  th:href="@{/articles/add}">ADD NEW ARTICLE</a>
 <!--                                <span> <a href="/">ADMIN</a></span>-->
                             </div>
