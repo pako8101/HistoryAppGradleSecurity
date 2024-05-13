@@ -45,13 +45,14 @@ public class UserServiceImpl implements UserService {
     public void subscribeUser(UserSubscribeBindingModel userSubscribeBindingModel,
                               Consumer<Authentication>successfulLoginProcessor) {
         UserEnt userEntity = new UserEnt().
+                setUsername(userSubscribeBindingModel.getUsername()).
                 setFullName(userSubscribeBindingModel.getFullName()).
                 setEmail(userSubscribeBindingModel.getEmail()).
                 setPassword(passwordEncoder.encode(userSubscribeBindingModel.getPassword()));
 
         userRepository.save(userEntity);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userSubscribeBindingModel.getEmail());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userSubscribeBindingModel.getUsername());
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails,

@@ -54,7 +54,7 @@
                 id="email"
                 name="email"
                 required/>
-        <small th:each="e :${#fields.errors('password')}" th:text="${e}"
+        <small th:each="e :${#fields.errors('email')}" th:text="${e}"
                 id="emailError" class="invalid-feedback  form-text bg-danger
             rounded">Must be valid email</small>
         <label for="password">Password:</label>

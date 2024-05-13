@@ -5,9 +5,11 @@ import HistoryAppGradleSecurity.model.binding.UserSubscribeBindingModel;
 import HistoryAppGradleSecurity.model.service.UserServiceModel;
 import HistoryAppGradleSecurity.model.view.UserViewModel;
 import HistoryAppGradleSecurity.service.UserService;
+import jakarta.persistence.PersistenceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.TransactionalException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContext;
@@ -55,55 +57,55 @@ public class UserController {
         return "subscribe";
     }
 
-    @PostMapping("/subscribe")
-    public String registerAndLoginUser(
-            @Valid UserSubscribeBindingModel subscribeBindingModel,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
-
-        if (bindingResult.hasErrors() || !subscribeBindingModel.getPassword()
-                .equals(subscribeBindingModel.getConfirmPassword())) {
-            redirectAttributes.addFlashAttribute("subscribeBindingModel", subscribeBindingModel);
-            redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.subscribeBindingModel", bindingResult);
-
-            return "redirect:/users/subscribe";
-        }
-
-        if (userService.userNameExists(subscribeBindingModel.getUsername())) {
-            redirectAttributes.addFlashAttribute("subscribeBindingModel", subscribeBindingModel);
-            redirectAttributes.addFlashAttribute("userExistsError", true);
-
-            return "redirect:/users/subscribe";
-        }
-
-        UserServiceModel userServiceModel = modelMapper
-                .map(subscribeBindingModel, UserServiceModel.class);
-
-        userService.registerAndLoginUser(userServiceModel);
-
-        return "redirect:/home";
-    }
-
 //    @PostMapping("/subscribe")
-//        public String subscribeConfirm(UserSubscribeBindingModel userSubscribeBindingModel,
-//                                   HttpServletRequest request,
-//                                   HttpServletResponse response){
+//    public String registerAndLoginUser(
+//            @Valid UserSubscribeBindingModel subscribeBindingModel,
+//            BindingResult bindingResult,
+//            RedirectAttributes redirectAttributes) {
 //
-//        userService.subscribeUser(userSubscribeBindingModel,successfulAuth ->{
-//            SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
+//        if (bindingResult.hasErrors() || !subscribeBindingModel.getPassword()
+//                .equals(subscribeBindingModel.getConfirmPassword())) {
+//            redirectAttributes.addFlashAttribute("subscribeBindingModel", subscribeBindingModel);
+//            redirectAttributes.addFlashAttribute(
+//                    "org.springframework.validation.BindingResult.subscribeBindingModel", bindingResult);
 //
-//            SecurityContext context = strategy.createEmptyContext();
-//            context.setAuthentication(successfulAuth);
+//            return "redirect:/users/subscribe";
+//        }
 //
-//            strategy.setContext(context);
-//            securityContextRepository.saveContext(context,request,response);
-//        });
+//        if (userService.userNameExists(subscribeBindingModel.getUsername())) {
+//            redirectAttributes.addFlashAttribute("subscribeBindingModel", subscribeBindingModel);
+//            redirectAttributes.addFlashAttribute("userExistsError", true);
 //
-//        return "redirect:/";
+//            return "redirect:/users/subscribe";
+//        }
 //
+//        UserServiceModel userServiceModel = modelMapper
+//                .map(subscribeBindingModel, UserServiceModel.class);
 //
-//}
+//        userService.registerAndLoginUser(userServiceModel);
+//
+//        return "redirect:/home";
+//    }
+
+    @PostMapping("/subscribe")
+        public String subscribeConfirm(UserSubscribeBindingModel userSubscribeBindingModel,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response){
+
+        userService.subscribeUser(userSubscribeBindingModel,successfulAuth ->{
+            SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
+
+            SecurityContext context = strategy.createEmptyContext();
+            context.setAuthentication(successfulAuth);
+
+            strategy.setContext(context);
+            securityContextRepository.saveContext(context,request,response);
+        });
+
+        return "redirect:/";
+
+
+}
     @GetMapping("/login")
     public String login(Model model) {
         if (!model.containsAttribute("isFound")) {
@@ -142,5 +144,7 @@ public class UserController {
 
         return modelAndView;
     }
+
+
 
 }

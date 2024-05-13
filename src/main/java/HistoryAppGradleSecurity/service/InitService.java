@@ -17,6 +17,7 @@ public class InitService {
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String defaultPassword;
 
 
     public InitService(UserRoleRepository userRoleRepository,
@@ -27,6 +28,8 @@ public class InitService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
 
+
+        this.defaultPassword = defaultPassword;
     }
 
     @PostConstruct
@@ -61,7 +64,7 @@ public class InitService {
                 setFullName("Admin").
                 setCountry("Bulgaria").
                 setUsername("admin").
-                setPassword(passwordEncoder.encode("pako")).
+                setPassword(passwordEncoder.encode(defaultPassword)).
                 setRoles(userRoleRepository.findAll());
 
         userRepository.save(adminUser);
@@ -77,7 +80,7 @@ public class InitService {
                 setFullName("Moderator").
                 setCountry("Greece").
                 setUsername("moderator").
-                setPassword(passwordEncoder.encode("pako")).
+                setPassword(passwordEncoder.encode(defaultPassword)).
                 setRoles(List.of(moderatorRole));
 
         userRepository.save(moderatorUser);
@@ -90,7 +93,7 @@ public class InitService {
                 setFullName("User").
                 setCountry("Tanzania").
                 setUsername("user").
-                setPassword(passwordEncoder.encode("pako"));
+                setPassword(passwordEncoder.encode(defaultPassword));
 
         userRepository.save(normalUser);
     }

@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,20 +33,24 @@ public class SecurityConfiguration {
                                 authorizeHttpRequests.
                                         requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                         .permitAll().
-                                        requestMatchers("/","/about","users/profile", "/users/login", "/users/subscribe", "/users/login-error")
+                                        requestMatchers("/","/about", "/users/login", "/users/subscribe", "/users/login-error")
                                         .permitAll().
-                                        requestMatchers("/articles/add", "/articles/all", "/articles/details/{id}")
-                                        .permitAll().
+//                                        requestMatchers("/articles/add", "/articles/all", "/articles/details/{id}")
+//                                        .permitAll()
+//                                .requestMatchers(HttpMethod.GET,"/articles/**","users/profile").permitAll()
+//                                .requestMatchers("/error").permitAll().
                                         requestMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
                                         requestMatchers("/pages/admins").hasRole(UserRoleEnum.ADMIN.name()).
                                         requestMatchers("/pages/all").hasRole(UserRoleEnum.USER.name()).
-                                        requestMatchers("/**").authenticated().
+                                       // requestMatchers("/**").authenticated().
                                         anyRequest().authenticated()
                 )
                 .formLogin(
                         (formLogin) ->
                                 formLogin.
                                         loginPage("/users/login").
+//                                .usernameParameter("email")
+//                                .passwordParameter("password").
                                         usernameParameter(
                                                 UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY).
                                         passwordParameter(

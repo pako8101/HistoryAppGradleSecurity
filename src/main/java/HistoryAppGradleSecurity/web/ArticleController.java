@@ -2,8 +2,11 @@ package HistoryAppGradleSecurity.web;
 
 
 import HistoryAppGradleSecurity.model.binding.ArticleAddBindingModel;
+import HistoryAppGradleSecurity.model.entity.Article;
 import HistoryAppGradleSecurity.model.service.ArticleServiceModel;
 import HistoryAppGradleSecurity.model.view.ArticleViewModel;
+import HistoryAppGradleSecurity.repository.ArticleRepository;
+import HistoryAppGradleSecurity.repository.UserRepository;
 import HistoryAppGradleSecurity.service.ArticleService;
 import HistoryAppGradleSecurity.session.LoggedUser;
 import jakarta.validation.Valid;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/articles")
@@ -22,14 +26,17 @@ public class ArticleController {
     private final ArticleService articleService;
     private final LoggedUser loggedUser;
     private final ModelMapper modelMapper;
-
+private final UserRepository userRepository;
+private final ArticleRepository articleRepository;
 
     public ArticleController(ArticleService articleService,
-                             LoggedUser loggedUser, ModelMapper modelMapper) {
+                             LoggedUser loggedUser, ModelMapper modelMapper, UserRepository userRepository, ArticleRepository articleRepository) {
         this.articleService = articleService;
         this.loggedUser = loggedUser;
 
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
+        this.articleRepository = articleRepository;
     }
 
     @ModelAttribute
@@ -49,6 +56,10 @@ public class ArticleController {
 
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
+        Article article = articleRepository.findById(id).orElse(null);
+
+        if (article== null) throw  new NoSuchElementException();
+
         model.addAttribute("article",
                 articleService.findArticleBId(id));
 
@@ -68,6 +79,9 @@ public class ArticleController {
     public String addConfirm(@Valid ArticleAddBindingModel articleAddBindingModel,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes){
+        if (!loggedUser.isLogged()){
+            throw  new IllegalArgumentException();
+        }
 
         if (bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("articleAddBindingModel",articleAddBindingModel);
