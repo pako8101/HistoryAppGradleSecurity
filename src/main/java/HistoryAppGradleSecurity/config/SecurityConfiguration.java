@@ -35,10 +35,10 @@ public class SecurityConfiguration {
                                         .permitAll().
                                         requestMatchers("/","/about", "/users/login", "/users/subscribe", "/users/login-error")
                                         .permitAll().
-//                                        requestMatchers("/articles/add", "/articles/all", "/articles/details/{id}")
-//                                        .permitAll()
-//                                .requestMatchers(HttpMethod.GET,"/articles/**","users/profile").permitAll()
-//                                .requestMatchers("/error").permitAll().
+                                        requestMatchers("/articles/add", "/articles/all", "/articles/details/{id}")
+                                        .permitAll()
+                                .requestMatchers(HttpMethod.GET,"/articles/**","users/profile").permitAll()
+                                .requestMatchers("/error").permitAll().
                                         requestMatchers("/pages/moderators").hasRole(UserRoleEnum.MODERATOR.name()).
                                         requestMatchers("/pages/admins").hasRole(UserRoleEnum.ADMIN.name()).
                                         requestMatchers("/pages/all").hasRole(UserRoleEnum.USER.name()).

@@ -171,17 +171,72 @@ This plant grew wild but came to be cultivated by the natives for use in religio
                             <img alt="image" src="./images/pic11.jpg" class="blog-post-card-image" />
                             <div class="blog-post-card-container">
                   <span class="blog-post-card-text">
-                    <span>Unique natural color combinations</span>
+                    <span> Ancient Olympic Games</span>
                   </span>
                                 <span class="blog-post-card-text1">
                     <span>
-                      Consectetur adipiscing elit duis tristique sollicitudin
-                      nibh
+                      The Olympic Games began in Olympia, in 776 BC and took place every
+                        four years until AD 393.They were held in honor of Zeus. At the first
+                        Games, athletes competed in only one running event held on a single day. However, over the
+                        years other events were added, and the Games eventually were expanded to five days.
+                    <span id="dots">...</span>
+                            <span id="more"> <br>
+                                <a> Discus
+In the discus event the athletes threw a disk-shaped object for distance. The discus itself was made of stone or, later, iron, lead, or bronze.
+                                </a>
+                                <br>
+<a> Long jump
+To increase their distance, the athletes held weights.
+                                They swung them above their heads on takeoff and threw them behind them before landing.
+</a>
+                                <a>
+                                    <br>
+Javelin
+The javelin was a wooden rod with one end sharpened.
+                                The athletes held a leather strap placed around the rod that helped them to throw the javelin farther.
+                            </a>
+                                <br>
+                                <a>
+                                    Equestrian events
+Two- and four-horse chariot races as well as horse riding races made up the equestrian events. The owners of the chariots or horses, not the participants, won.
+</a>
+                                <a> <br>
+Running events
+There were four running events, all of which consisted of a predetermined number of laps in the stadium. In one race the athletes wore armor and carried a shield.
+                                </a> <br>
+                                <a>
+Boxing
+The athletes wrapped their hands and wrists in leather. Later they added metal on their knuckles. An athlete won when his opponent was knocked out or gave up.
+</a>
+                                <br>
+                                <a>
+    Wrestling
+The athletes fought with bare hands while standing up. An athlete won after he forced his opponent’s hip, shoulder, or back to the ground three times.
+</a>
+                            </span>
+
                     </span>
                   </span>
-                                <a href="#" class="button">
+                                <button onclick="myFunction()" id="myBtn" class="button">
                                     Read more
-                                </a>
+                                </button>
+                                <script>
+                                    function myFunction() {
+                                        const dots = document.getElementById("dots");
+                                        const moreText = document.getElementById("more");
+                                        const btnText = document.getElementById("myBtn");
+
+                                        if (dots.style.display === "none") {
+                                            dots.style.display = "inline";
+                                            btnText.innerHTML = "Read more";
+                                            moreText.style.display = "none";
+                                        } else {
+                                            dots.style.display = "none";
+                                            btnText.innerHTML = "Read less";
+                                            moreText.style.display = "inline";
+                                        }
+                                    }
+                                </script>
                             </div>
                         </div>
                         <div class="blog-post-card-blog-post-card">

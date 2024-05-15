@@ -47,26 +47,27 @@
                                 <a href="/" class="navbar-link">HOME</a>
                                 <a sec:authorize="!isAuthenticated()" th:href="@{/users/login}" class="navbar-link">LOGIN</a>
                                 <a sec:authorize="!isAuthenticated()" class="navbar-link" th:href="@{/users/subscribe}">SUBSCRIBE</a>
-                                <a sec:authorize="isAuthenticated()"  class="navbar-link" th:href="@{/articles/add}">ADD ARTICLE</a>
+<!--                                <a sec:authorize="isAuthenticated()"  class="navbar-link" th:href="@{/articles/add}">ADD ARTICLE</a>-->
                             </div>
                         </div>
 
                     </th:block>
 
-                    <th:block sec:authorize="isAuthenticated()">
-                        <div class="home-container01">
-                            <input type="text" placeholder="Search AH portal" class="home- input"/>
-                        </div>
+
+<!--                        <div class="home-container01">-->
+<!--                            <input type="text" placeholder="Search AH portal" class="home- input"/>-->
+<!--                        </div>-->
+                        <th:block sec:authorize="isAuthenticated()">
                         <div class="home-middle">
                             <div class="home-left">
-                                <a th:href="@{/}" class="navbar-link">HOME</a>
+<!--                                <a th:href="@{/}" class="navbar-link">HOME</a>-->
                                 <a class="navbar-link"   th:href="@{/users/profile}">PROFILE</a>
-                                <a class="navbar-link" >
-                                    <form th:action="@{/logout}" method="post">
-                                        <button type="submit" class="nav-link">Logout</button>
-                                    </form>
-                                </a>
-<!--                                <a class="navbar-link"  th:href="@{/users/logout}">LOGOUT</a>-->
+<!--                                <a class="navbar-link" >-->
+<!--                                    <form th:action="@{/logout}" method="post">-->
+<!--                                        <button type="submit" class="nav-link">Logout</button>-->
+<!--                                    </form>-->
+<!--                                </a>-->
+                                <a class="navbar-link"  th:href="@{/users/logout}">LOGOUT</a>
                                 <a class="navbar-link"  th:href="@{/articles/add}">ADD NEW ARTICLE</a>
 <!--                                <span> <a href="/">ADMIN</a></span>-->
                             </div>
@@ -106,8 +107,7 @@
                         <a href="#" class="home-text40">Desks</a>
                         <a href="#" class="home-text41">Articles</a>
                         <a href="#" class="home-text42">Time Periods</a>
-                        <a href="#" class="home-text43">Plants</a>
-                        <a href="#" class="home-text44">Decoration</a>
+
                     </div>
                     <div class="home-container11">
                         <span class="home-text45">Company</span>

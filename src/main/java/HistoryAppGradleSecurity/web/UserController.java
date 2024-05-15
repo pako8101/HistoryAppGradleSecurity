@@ -129,12 +129,12 @@ public class UserController {
         return "redirect:/users/login";
 
 }
-//    @GetMapping("/logout")
-//    public String logout(HttpSession httpSession){
-//        httpSession.invalidate();
-//        return "redirect:/";
-//
-//    }
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession){
+        httpSession.invalidate();
+        return "redirect:/";
+
+    }
     @GetMapping("/profile")
     public ModelAndView profile() {
         UserViewModel userViewModel = userService.getUserProfile();
